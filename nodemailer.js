@@ -40,7 +40,7 @@ const mensajePrincipal = `
 
 // URLs
 const urlDominio = "http://unah.edu.com"; // Enlace con el dominio
-const urlIP = "http://192.168.0.25"; // Enlace que internamente usa la IP
+const urlIP = "http://192.168.8.136/"; // Enlace que internamente usa la IP
 
 // Verificar si el transporte está listo
 transporter.verify().then(() => {
