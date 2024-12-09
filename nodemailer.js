@@ -11,10 +11,10 @@ const __dirname = path.dirname(__filename);
 export const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
-    secure: true, // true para el puerto 465, false para otros puertos
+    secure: true, // true para el puerto 465
     auth: {
         user: "josueisacsalomonlanda@gmail.com",
-        pass: "xvqj mjdj aoxh zwzg", // Usa una contraseña de aplicación
+        pass: "xvqj mjdj aoxh zwzg", // Contraseña de aplicación de Gmail
     },
 });
 
@@ -37,12 +37,14 @@ const mensajePrincipal = `
     le recomendamos actualizar su contraseña institucional lo antes posible. 
     Puede hacerlo ingresando a su portal virtual mediante el siguiente enlace seguro:
 `;
-const urlVisible = "https://campusvirtual.unah.edu.hn/";
-const urlReal = "http://192.168.0.25"; // URL real que redirige a la IP interna
+
+// URLs
+const urlDominio = "http://unah.edu.com"; // Enlace con el dominio
+const urlIP = "http://192.168.0.25"; // Enlace que internamente usa la IP
 
 // Verificar si el transporte está listo
 transporter.verify().then(() => {
-    console.log("Ready for send emails");
+    console.log("Ready to send emails");
 
     // Leer los correos desde el archivo Excel
     const emails = leerCorreosDesdeExcel(archivoExcel);
@@ -95,6 +97,7 @@ transporter.verify().then(() => {
                         .body {
                             padding: 20px;
                             color: #333333;
+                            text-align: center; /* Centrar el texto */
                         }
                         .body p {
                             line-height: 1.6;
@@ -140,16 +143,13 @@ transporter.verify().then(() => {
                         </div>
                         <div class="body">
                             <p>${mensajePrincipal}</p>
-                            <p>Recuerde que mantener la seguridad de sus datos personales es una prioridad.</p>
                             <div class="cta">
-                                <a href="${urlReal}">
-                                    Ingresar a mi portal virtual
-                                </a>
+                                <a href="${urlDominio}" target="_blank">Ingresar a mi portal virtual</a>
                             </div>
                             <p>
-                                Si no solicitó esta acción, puede ignorar este mensaje. 
-                                Para más información, visite nuestro sitio web en 
-                                <a href="${urlReal}">${urlVisible}</a>.
+                                Si no puede acceder mediante el enlace anterior, también puede intentar con: 
+                                <br>
+                                <a href="${urlIP}" target="_blank">${urlDominio}</a>
                             </p>
                         </div>
                         <div class="footer">
