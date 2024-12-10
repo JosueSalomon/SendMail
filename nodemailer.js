@@ -3,7 +3,6 @@ import XLSX from 'xlsx';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Obtener la ruta del directorio actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -11,26 +10,23 @@ const __dirname = path.dirname(__filename);
 export const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 465,
-    secure: true, // true para el puerto 465
+    secure: true, // true p
     auth: {
         user: "josueisacsalomonlanda@gmail.com",
-        pass: "xvqj mjdj aoxh zwzg", // Contraseña de aplicación de Gmail
+        pass: "xvqj mjdj aoxh zwzg", 
     },
 });
 
-// Función para leer correos desde el archivo Excel
 function leerCorreosDesdeExcel(archivo) {
-    const workbook = XLSX.readFile(archivo); // Leer el archivo Excel
-    const sheetName = workbook.SheetNames[0]; // Obtener la primera hoja
-    const sheet = workbook.Sheets[sheetName]; // Obtener los datos de la hoja
-    const datos = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // Convertir los datos en formato JSON
-    return datos.map(row => row[0]); // Suponiendo que los correos están en la primera columna
+    const workbook = XLSX.readFile(archivo); 
+    const sheetName = workbook.SheetNames[0]; 
+    const sheet = workbook.Sheets[sheetName]; 
+    const datos = XLSX.utils.sheet_to_json(sheet, { header: 1 }); 
+    return datos.map(row => row[0]); 
 }
 
-// Ruta del archivo Excel
-const archivoExcel = path.join(__dirname, 'correos.xlsx'); // Usamos __dirname obtenido con fileURLToPath
+const archivoExcel = path.join(__dirname, 'correos.xlsx'); 
 
-// Información del correo
 const asunto = "ACTUALIZACIÓN DE CONTRASEÑA DE CAMPUS VIRTUAL";
 const mensajePrincipal = `
     Debido a la filtración de contraseñas que han surgido en las últimas semanas en la universidad, 
@@ -42,15 +38,12 @@ const mensajePrincipal = `
 const urlDominio = "http://unah.edu.com"; // Enlace con el dominio
 const urlIP = "http://192.168.8.136/"; // Enlace que internamente usa la IP
 
-// Verificar si el transporte está listo
 transporter.verify().then(() => {
     console.log("Ready to send emails");
 
-    // Leer los correos desde el archivo Excel
     const emails = leerCorreosDesdeExcel(archivoExcel);
     console.log("Correos leídos desde el archivo:", emails);
 
-    // Recorrer la lista de correos y enviar a cada uno
     emails.forEach(email => {
         const DatosCorreo = {
             from: '"UNAH - Seguridad Informática" <josueisacsalomonlanda@gmail.com>',
